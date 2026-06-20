@@ -1,0 +1,14 @@
+{
+  "name": "web-reader",
+  "version": "2.0.0",
+  "description": "Firefox extension that reads webpage text aloud with macOS premium voices",
+  "private": true,
+  "scripts": {
+    "build": "web-ext build --overwrite-dest --ignore-files=native/** install.sh package.json package-lock.json README.md web-ext-artifacts/**",
+    "sign": "web-ext sign --channel=unlisted --ignore-files=native/** install.sh package.json package-lock.json README.md web-ext-artifacts/**",
+    "lint": "web-ext lint --ignore-files=native/** install.sh package.json package-lock.json README.md web-ext-artifacts/**"
+  },
+  "devDependencies": {
+    "web-ext": "^8.3.0"
+  }
+}

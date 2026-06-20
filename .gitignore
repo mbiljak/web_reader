@@ -1,0 +1,8 @@
+node_modules/
+web-ext-artifacts/
+native/launch.sh
+.DS_Store
+*.xpi
+.amo-upload-uuid
+__pycache__/
+*.pyc

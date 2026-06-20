@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <rect x="4" y="4" width="88" height="88" rx="20" fill="#1e1e2e"/>
+  <!-- speaker body -->
+  <path d="M26 40 H38 L52 28 V68 L38 56 H26 Z" fill="#89b4fa"/>
+  <!-- sound waves -->
+  <path d="M60 38 Q68 48 60 58" fill="none" stroke="#a6e3a1" stroke-width="5" stroke-linecap="round"/>
+  <path d="M67 31 Q80 48 67 65" fill="none" stroke="#a6e3a1" stroke-width="5" stroke-linecap="round"/>
+  <!-- focal letter dot (nod to speed-reading) -->
+  <circle cx="32" cy="48" r="3.5" fill="#ff4d4d"/>
+</svg>

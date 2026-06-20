@@ -1,0 +1,53 @@
+{
+  "manifest_version": 2,
+  "name": "Web Reader",
+  "version": "2.0",
+  "description": "Extract and read aloud the text on any webpage using premium macOS voices",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "web-reader@local"
+    }
+  },
+  "permissions": ["activeTab", "storage", "nativeMessaging"],
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Web Reader",
+    "default_icon": "icons/icon.svg"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["Readability.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "MacCtrl+Shift+R"
+      }
+    },
+    "toggle-read": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "MacCtrl+Shift+S"
+      },
+      "description": "Play / pause reading"
+    },
+    "stop-read": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X",
+        "mac": "MacCtrl+Shift+X"
+      },
+      "description": "Stop reading"
+    }
+  }
+}
