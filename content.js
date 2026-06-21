@@ -21,9 +21,26 @@
   }
 
   // ---------- Text extraction ----------
-  function extractText() {
+  // Canvas-based editors (Google Docs) render text on a <canvas>, so there's no
+  // selectable DOM text — getSelection() returns empty. Detect them so we can
+  // fall back to the clipboard (the user copies with Cmd+C first).
+  function isCanvasEditor() {
+    return /(^|\.)docs\.google\.com$/.test(location.hostname) &&
+      location.pathname.includes('/document/');
+  }
+
+  async function extractText() {
     const selection = window.getSelection().toString().trim();
     if (selection.length > 0) return selection;
+
+    if (isCanvasEditor()) {
+      try {
+        const clip = (await navigator.clipboard.readText()).trim();
+        if (clip.length > 0) return clip;
+      } catch (e) { /* clipboard blocked or empty */ }
+      return '__NEEDS_COPY__';
+    }
+
     try {
       const doc = document.cloneNode(true);
       const article = new Readability(doc).parse();
@@ -185,9 +202,13 @@
     if (rsvpBox) rsvpBox.style.display = 'none';
   }
 
-  function startPlayback() {
+  async function startPlayback() {
     window.speechSynthesis.cancel();
-    const text = extractText();
+    const text = await extractText();
+    if (text === '__NEEDS_COPY__') {
+      flashNotice('Select your text in the Doc and press ⌘C, then play again.');
+      return;
+    }
     sentences = splitSentences(text);
     if (sentences.length === 0) return;
     currentIndex = 0;
@@ -196,6 +217,20 @@
     engine = 'native';
     if (rsvpEnabled) ensureRsvpBox(); else removeRsvpBox();
     speakCurrent();
+  }
+
+  // Brief on-page toast for guidance (e.g. the Google Docs copy step)
+  function flashNotice(msg) {
+    const n = document.createElement('div');
+    n.textContent = msg;
+    n.style.cssText = [
+      'position:fixed', 'bottom:24px', 'left:50%', 'transform:translateX(-50%)',
+      'z-index:2147483647', 'background:rgba(20,20,30,0.96)', 'color:#e8e8f0',
+      'font-family:system-ui,sans-serif', 'font-size:14px', 'padding:12px 18px',
+      'border-radius:8px', 'box-shadow:0 2px 18px rgba(0,0,0,0.4)', 'pointer-events:none'
+    ].join(';');
+    document.documentElement.appendChild(n);
+    setTimeout(() => n.remove(), 4000);
   }
 
   function restartCurrent() {

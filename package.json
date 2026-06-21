@@ -1,6 +1,6 @@
 {
   "name": "web-reader",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Firefox extension that reads webpage text aloud with macOS premium voices",
   "private": true,
   "scripts": {
